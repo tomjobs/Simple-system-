@@ -1,4 +1,4 @@
-//宏定义区
+//宏定义区//参考引用https://github.com/tomjobs/LIMS
 #include <stdio.h>//未完成
 #include <string.h>
 #include <math.h>
