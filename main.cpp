@@ -114,7 +114,7 @@ int main()
         printf("\n请您选择（1~5）：");
         scanf("%d",&choice1);
 
-        if(choice1=='1')/*会员登录*/
+        if(choice1==1)/*会员登录*/
         {
             int flag=0;
             char account1[20],account_choice;
@@ -247,14 +247,14 @@ int main()
             flag2=1,flag3=1;//这是什么鬼？？
         }
 
-        else if(choice1=='2')/*会员注册*/
+        else if(choice1==2)/*会员注册*/
         {
             system("cls");
             printf("\n\n\n\t\t\t正在进入用户注册界面...");
             clock_delay();
             member_log_up();
         }
-        else if(choice1=='3')/*退出系统*/
+        else if(choice1==3)/*退出系统*/
         {
             flag1=0;
         }
@@ -1290,4 +1290,14 @@ void clock_delay()/*时间延时函数*/
     clock_t tm;
     tm=clock();
     while(clock()<tm+1000);
+}
+void find_account_circle()/*找回账户弹出框函数*/
+{
+	printf("\n\n\n\n");
+	printf("\t\t\t===============H-E-L-P===================\n");
+	printf("\t\t\t|                                       |\n");
+	printf("\t\t\t* 您需不需要通过密钥找回账户？(输入y/n) *\n");
+	printf("\t\t\t|                                       |\n");
+	printf("\t\t\t=========================================\n");
+	printf("\n\t\t\t您的选择是:");
 }
