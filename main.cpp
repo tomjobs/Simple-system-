@@ -50,7 +50,6 @@ int user_account(char account[20]);/*个人账户信息*/
 void member_log_up();/*会员注册函数*/
 int member_log_in(char account[20]);/*会员登录函数*/
 void ADMIN_watch_member();/*查看会员信息函数*/
-void display_memberbook();/*查看所有图书借阅信息函数*/
 int check_repeat_ID(char id_account[20]);/*检查账户重复性函数*/
 void find_account();/*账户找回函数*/
 
@@ -103,10 +102,10 @@ int main()
     {
         system("cls");
         menu1();
-        printf("\n请您选择（1~3）：");
+        printf("\n请您选择（1~4）：");
         //      scanf("%d",&choice1);
         choice1 = getch();
-        while(choice1!='1'&&choice1!='2'&&choice1!='3')
+        while(choice1!='1'&&choice1!='2'&&choice1!='3'&&choice1!='4')
             choice1=getch();
         printf("%c",choice1);
         fflush(stdin);
@@ -314,22 +313,7 @@ int main()
 
                     }
                 }
-                    /*switch(choice3)
-                    {
-                    	case '1':add_book(); break;
-                    	case '2':delete_book(); break;
-                    	case '3':modify_book(); break;
-                    	case '4':search_book(); break;
-                    	case '5':display_book(); break;
-                    	case '6':ADMIN_watch_member();break;
-                    	case '7':display_memberbook();break;
-                    	case '8':flag2=0;
-                    	     	 printf("\n\n\t\t\t正在退出管理员界面...");
-                     	  		 clock_delay();
-                    			 break;
-                    	default:break;/*虽然压根不会读到default情况，但是怕后来开发者漏掉新加的case的while处理，所以加上
-                    	}
-                    }*/
+
 
                 }
 
@@ -342,8 +326,8 @@ int main()
                 }
                 flag2=1;
     }
-            else if(choice1=='4')/*退出系统*/
-            {
+        else if(choice1=='4')/*退出系统*/
+        {
                 flag1=0;
             }
         }
