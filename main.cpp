@@ -6,7 +6,7 @@
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>
-#include <conio.h>
+#include <conio.h>//getch 
 //宏定义区
 #define   MAX_LEN  10                	   /* 字符串最大长度 */
 #define   STU_NUM 30                       /* 最多的学生人数 */
@@ -39,7 +39,7 @@ int   Menu(void);                                      //创建菜单
 void  menu1();
 void  menu2();
 void  menu3();
-void  AboutMe();//引用 致谢
+void  AboutMe();//引用，致谢，本程序绝非是独立完成，而是在参考前人代码的基础加以改进才得到此程序。 
 
 //工具函数区
 int compare_password(char password[20]);/*密码比对函数 */
@@ -99,7 +99,7 @@ int main()
     {
         system("cls");
         menu1();
-        printf("\n请您选择（1~6）：");
+        printf("\n请选择（1~4）：");
         //      scanf("%d",&choice1);//用scanf的话就不能起到阻挡非法字符的作用了 
         
         choice1 = getch();
@@ -131,7 +131,6 @@ int main()
             {
                 while(flag2)
                 {
-                    system("cls");
                     menu2();
                     printf("\n");
                     printf("请您选择(1-6):");
@@ -193,7 +192,8 @@ int main()
             flag2=1;
         }
         
-        
+        /*------------------------学生------------------------*/ 
+
         /*------------------------学生注册------------------------*/ 
 
         else if(choice1=='2')/*会员注册*/
@@ -204,7 +204,7 @@ int main()
             member_log_up();//注册界面 
         }
         
-        /*------------------------学生------------------------*/ 
+        /*------------------------学生注册------------------------*/ 
 
         
        /*------------------------老师------------------------*/ 
@@ -215,18 +215,16 @@ int main()
             {
                 printf("\n\n\t\t\t输入密码正确!\n\n\t\t\t\t进入管理员界面中\n");
                 clock_delay();
-                
-                    system("cls");
+                while(flag2)
+                    {
                     menu3();
                     printf("\n");
                     printf("请选择(0~D):");
                     choice3=getch();
-                    while(choice3!='1'&&choice3!='2'&&choice3!='3'&&choice3!='4'&&choice3!='5'&&choice3!='6'&&choice3!='7'&&choice3!='8')
+                    while(choice3!='1'&&choice3!='2'&&choice3!='3'&&choice3!='4'&&choice3!='5'&&choice3!='6'&&choice3!='7'&&choice3!='8'&&choice3!='9'&&choice3!='A'&&choice3!='B'&&choice3!='C'&&choice3!='D'&&choice3!='0')
                         choice3=getch();
                     printf("%c",choice3);//输出缓存区
-                    while(flag2)
-                    {
-                    menu3();
+                    
                     if (choice3 == '1')
                     {
                         system("cls");  //清屏
@@ -502,8 +500,8 @@ int main()
         STU *p1, *p2;
 
         p1 = (STU *)malloc(LEN);
-        p1->next = head;        //注意理解：我们增加一个节点，放在第一个节点的前面，主要是为了便于比较。因为第一个节点没有前驱，我们不能交换地址
-        head = p1;                 //让head指向p1节点，排序完成后，我们再把p1节点释放掉
+        p1->next = head;        
+        head = p1;                
 
         for (endpt = NULL; endpt != head; endpt = p)
         {
@@ -740,8 +738,8 @@ int main()
 
                 p = p->next;
 
-            }
-            while (p != NULL);
+            }while (p != NULL);
+        }
             printf("\n\n\n");//百分制 
             printf("\t\t\t******************************************************************************\n");
             printf("\t\t\t* For course %d:\n", i + 1);
@@ -752,9 +750,7 @@ int main()
             printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 90, 99, a[4], 100 * a[4] / 6.0);
             printf("\t\t\t* %d\t%d\t%.2f%%\n", 100, a[5], 100 * a[5] / 6.0);
             printf("\t\t\t******************************************************************************\n");
-
-        }
-    }
+    	}
 /*---------------------文件----------------------------*/ 
 
     void  WritetoFile(STU *head, int n, int m)
@@ -857,7 +853,7 @@ int main()
         printf("\t\t\t| *                                   * |\n");
         printf("\t\t\t| |  [1]   输出成绩               | |\n");
         printf("\t\t\t| *  [2]   排名查询                   * |\n");
-        printf("\t\t\t| |  [3]   平均成绩                   | |\n");
+        printf("\t\t\t| |  [3]   成绩统计                   | |\n");
         printf("\t\t\t| *  [4]   老师评价               * |\n");
         printf("\t\t\t| *  [5]   意见反馈           * |\n");
         printf("\t\t\t| *  [6]   退出用户界面               * |\n");
