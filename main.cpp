@@ -8,22 +8,20 @@
 #include <stdlib.h>
 #include <conio.h>//getch 
 //宏定义区
-#define   MAX_LEN  10                	   /* 字符串最大长度 */
-#define   STU_NUM 30                       /* 最多的学生人数 */
-#define   COURSE_NUM 6                     /* 最多的考试科目数 */
-#define   LEN sizeof(struct Student)
-#define   ADMIN_password "1804"
+
+#define   len sizeof(struct Student)
+#define   Password "1804"
 
 //结构体声明区
 typedef struct Student
 {
     long num;	                    /* 每个学生的学号 */
-    char name[MAX_LEN];            	/* 每个学生的姓名 */
-    float score[COURSE_NUM];	    /* 每个学生COURSE_NUM门功课的成绩 */
+    char name[10];            	/* 每个学生的姓名 */
+    float score[10];	    /* 每个学生COURSE_NUM门功课的成绩 */
     float sum;                      /* 每个学生的总成绩 */
     float aver;						/* 每个学生的平均成绩 */
     struct Student *next;
-} STU;
+} STUDENT;
 
 typedef struct member
 {
@@ -56,20 +54,20 @@ int check_repeat_ID(char id_account[20]);/*检查账户重复性函数*/
 void find_account();/*账户找回函数*/
 
 //成绩管理系统层级函数区
-void  Print(STU *head, int n, int m);                  
-void  AverSumofEveryStudent(STU *head, int n, int m);  //计算每门课程的总分和平均分
-void  AverSumofEveryCourse(STU *head, int n, int m);   //计算每个学生的总分和平均分
-STU  *SortbyScore(STU *head, int n);				   //按每个学生的总分由高到低排出名次表
-STU  *Creat(int n, int m);   //创建链表并录入信息
-STU  *Creat1(int n, int m);  //创建链表 
-STU  *SortbyScore1(STU *head, int n);                  //学生成绩从低到高排出名次
-STU  *SortbyNum(STU *head);                            //学号从小到大输出成绩
-STU  *SortbyName(STU *head, int n);                    //姓名字典顺序输出成绩
-void  SearchbyNum(STU *head, int n, int m);            //学号查询
-void  SearchbyName(STU *head, int n, int m);           //姓名查询学
-void  StatisticAnalysis(STU *head, int n, int m);      //按类别及比例输出
-void  WritetoFile(STU *head, int n, int m);            //将每个学生信息写入文件
-STU  *ReadfromFile(STU *head, int *n, int *m);         //文件中读取信息 
+void  Print(STUDENT *head, int n, int m);                  
+void  AverSumofEveryStudent(STUDENT *head, int n, int m);  //计算每门课程的总分和平均分
+void  AverSumofEveryCourse(STUDENT *head, int n, int m);   //计算每个学生的总分和平均分
+STUDENT  *SortbyScore(STUDENT *head, int n);				   //按每个学生的总分由高到低排出名次表
+STUDENT  *Creat(int n, int m);   //创建链表并录入信息
+STUDENT  *Creat1(int n, int m);  //创建链表 
+STUDENT  *SortbyScore1(STUDENT *head);                  //学生成绩从低到高排出名次
+STUDENT  *SortbyNum(STUDENT *head);                            //学号从小到大输出成绩
+STUDENT  *SortbyName(STUDENT *head);                    //姓名字典顺序输出成绩
+void  SearchbyNum(STUDENT *head, int n, int m);            //学号查询
+void  SearchbyName(STUDENT *head, int n, int m);           //姓名查询学
+void  statistic(STUDENT *head, int n, int m);      //按类别及比例输出
+void  WritetoFile(STUDENT *head, int n, int m);            //将每个学生信息写入文件
+STUDENT  *ReadfromFile(STUDENT *head, int *n, int *m);         //文件中读取信息 
 
 int main()
 {
@@ -77,8 +75,8 @@ int main()
     int n, m;
     int i;
     char choice1,choice2,choice3;
-    STU *head;  //定义头节点
-    head = (STU *)malloc(LEN);//头结点赋空间
+    STUDENT *head;  //定义头节点
+    head = (STUDENT *)malloc(len);//头结点赋空间
     FILE *p1,*p2;
 
     system("title 1804tomjobs");
@@ -154,7 +152,7 @@ int main()
                         break;
                     case '3':
                         system("cls");  //清屏
-                        StatisticAnalysis(head, n, m);
+                        statistic(head, n, m);
                         break;
                     case '4':
                         system("cls");  //清屏
@@ -211,7 +209,7 @@ int main()
 
 		else if(choice1=='3')/*管理员登录*/
         {
-            if(compare_password(ADMIN_password))
+            if(compare_password(Password))
             {
                 printf("\n\n\t\t\t输入密码正确!\n\n\t\t\t\t进入管理员界面中\n");
                 clock_delay();
@@ -239,77 +237,77 @@ int main()
                     case '1':
                         printf("\t\t\tInput student's ID, name and score:\n");
                         head = Creat(n, m);
-                        system("cls");  //清屏
+                        system("cls"); 
                         break;
                     case '2':
-                        system("cls");  //清屏
+                        system("cls"); 
                         AverSumofEveryStudent(head, n, m);
                         break;
                     case '3':
-                        system("cls");  //清屏
+                        system("cls");  
                         AverSumofEveryCourse(head, n, m);
                         break;
                     case '4':
-                        system("cls");  //清屏
+                        system("cls");  
                         printf("\n\n\n");
                         printf("\t\t\tSort in ascending order by score:\n");
                         head = SortbyScore(head, n);
                         Print(head, n, m);
                         break;
                     case '5':
-                        system("cls");  //清屏
+                        system("cls"); 
                         printf("\n\n\n");
                         printf("\t\t\tSort in ascending order by score:\n");
-                        head = SortbyScore1(head, n);
+                        head = SortbyScore1(head);
                         Print(head, n, m);
                         break;
                     case '6':
-                        system("cls");  //清屏
+                        system("cls");  
                         printf("\n\n\n");
                         printf("\t\t\tSort in ascending order by number:\n");
                         head = SortbyNum(head);
                         Print(head, n, m);
                         break;
                     case '7':
-                        system("cls");  //清屏
+                        system("cls");  
                         printf("\n\n\n");
                         printf("\t\t\tSort in dictionary order by name:\n");
-                        head = SortbyName(head, n);
+                        head = SortbyName(head);
                         Print(head, n, m);
                         break;
                     case '8':
-                        system("cls");  //清屏
+                        system("cls"); 
                         printf("\n\n\n");
                         printf("\t\t\t******************************************************************************\n");
                         printf("\t\t\tInput the number you want to search:\n");
                         SearchbyNum(head, n, m);
                         break;
                     case '9':
-                        system("cls");  //清屏
+                        system("cls"); 
                         printf("\n\n\n");
                         printf("\t\t\t******************************************************************************\n");
                         printf("\t\t\tInput the name you want to search:\n");
                         SearchbyName(head, n, m);
                         break;
                     case 'A':
-                        system("cls");  //清屏
-                        StatisticAnalysis(head, n, m);
+                        system("cls"); 
+                        statistic(head, n, m);
                         break;
                     case 'B':
-                        system("cls");  //清屏
+                        system("cls"); 
                         printf("\n\n\n");
                         Print(head, n, m);
                         break;
                     case 'C':
-                        system("cls");  //清屏
+                        system("cls"); 
                         WritetoFile(head, n, m);
                         break;
                     case 'D':
-                        system("cls");  //清屏
+                        system("cls");  
                         head = ReadfromFile(head, &n, &m);
                         break;
                     case '0':
-                        system("cls");  //清屏
+                        system("cls");  
                         printf("\n\n\n");
                         printf("\t\t\t******************************************************************************\n");
                         printf("\t\t\tEnd!\n");
@@ -317,7 +315,7 @@ int main()
                         flag2 = 0;
                         break; 
                     default:
-                        system("cls");  //清屏
+                        system("cls"); 
                         printf("\n\n\n");
                         printf("\t\t\t******************************************************************************\n");
                         printf("\t\t\tInput error!\n");
@@ -352,21 +350,18 @@ int main()
 
 
 // 创建链表
-    STU *Creat(int n, int m)
+    STUDENT *Creat(int n, int m)
     {
-        STU *head;
-        STU *p1, *p2;
+        STUDENT *head;//头结点 
+        STUDENT *p1, *p2;//临时结点 
         int i, j;
         for (i = 1; i < n + 1; i++)
         {
-            p1 = (STU *)malloc(LEN);
-            printf("\t\t\t");
+            p1 = (STUDENT *)malloc(len);
             scanf("%ld", &p1->num);
-            printf("\t\t\t");
             scanf("%s", p1->name);
-            for (j = 0; j<m; j++)
+            for (j = 0; j<m; j++)//输入成绩 
             {
-                printf("\t\t\t");
                 scanf("%f", &p1->score[j]);
             }
             p1->next = NULL;
@@ -383,14 +378,14 @@ int main()
         return(head);
     }
 
-    STU *Creat1(int n, int m)
+    STUDENT *Creat1(int n, int m)
     {
-        STU *head;
-        STU *p1, *p2;
+        STUDENT *head;
+        STUDENT *p1, *p2;
         int i, j;
         for (i = 1; i < n + 1; i++)
         {
-            p1 = (STU *)malloc(LEN);
+            p1 = (STUDENT *)malloc(len);
             p1->next = NULL;
             if (i == 1)
             {
@@ -405,9 +400,9 @@ int main()
         return(head);
     }
 
-    void  AverSumofEveryStudent(STU *head, int n, int m)
+    void  AverSumofEveryStudent(STUDENT *head, int n, int m)
     {
-        STU *p;
+        STUDENT *p;
         int i, j = 1;
         char ch;
         float sum;
@@ -434,9 +429,9 @@ int main()
         }
     }
 
-    void  AverSumofEveryCourse(STU *head, int n, int m)
+    void  AverSumofEveryCourse(STUDENT *head, int n, int m)
     {
-        STU *p;
+        STUDENT *p;
         int i, j;
         p = head;
         if (head != NULL)
@@ -460,13 +455,13 @@ int main()
     
 /*---------------------排序----------------------------*/ 
 
-    STU  *SortbyScore(STU *head, int n)
+    STUDENT  *SortbyScore(STUDENT *head, int n)
     {
-        STU *endpt;    //控制循环比较
-        STU *p;        //临时指针变量
-        STU *p1, *p2;
+        STUDENT *endpt;    //控制循环比较
+        STUDENT *p;        //临时指针变量
+        STUDENT *p1, *p2;
 
-        p1 = (STU *)malloc(LEN);
+        p1 = (STUDENT *)malloc(len);
         p1->next = head;//增加一个前驱结点，此网上代码做法 ，目的是便于比较 
         head = p1;      //head指向p1
 
@@ -493,13 +488,13 @@ int main()
         return head;
     }
 
-    STU  *SortbyScore1(STU *head, int n)
+    STUDENT  *SortbyScore1(STUDENT *head)
     {
-        STU *endpt;    //控制循环比较
-        STU *p;        //临时指针变量
-        STU *p1, *p2;
+        STUDENT *endpt;    //控制循环比较
+        STUDENT *p;        //临时指针变量
+        STUDENT *p1, *p2;
 
-        p1 = (STU *)malloc(LEN);
+        p1 = (STUDENT *)malloc(len);
         p1->next = head;        
         head = p1;                
 
@@ -518,6 +513,39 @@ int main()
             }
         }
 
+        p1 = head;              
+        head = head->next;       
+        free(p1);        
+        p1 = NULL;         
+
+        return head;
+    }
+
+	STUDENT  *SortbyNum(STUDENT *head)
+    {
+        STUDENT *endpt;    //控制循环比较
+        STUDENT *p;        //临时指针变量
+        STUDENT *p1, *p2;
+
+        p1 = (STUDENT *)malloc(len);
+        p1->next = head;        
+        head = p1;                
+
+        for (endpt = NULL; endpt != head; endpt = p)
+        {
+            for (p = p1 = head; p1->next->next != endpt; p1 = p1->next)
+            {
+                if (p1->next->num > p1->next->next->num)  //如果前面的节点键值比后面节点的键值大，则交换
+                {
+                    p2 = p1->next->next;
+                    p1->next->next = p2->next;
+                    p2->next = p1->next;
+                    p1->next = p2;
+                    p = p1->next->next;
+                }
+            }
+        }
+
         p1 = head;              //把p1的信息去掉
         head = head->next;       //让head指向排序后的第一个节点
         free(p1);          //释放p1
@@ -525,44 +553,13 @@ int main()
 
         return head;
     }
-
-    STU *SortbyNum(STU *head)
+    STUDENT  *SortbyName(STUDENT *head)
     {
-        STU *first;    //为原链表剩下用于直接插入排序的节点头指针
-        STU *t;        //临时指针变量：插入节点
-        STU *p, *q;     //临时指针变量
+        STUDENT *endpt;    //控制循环比较
+        STUDENT *p;        //临时指针变量
+        STUDENT *p1, *p2;
 
-        first = head->next;      //原链表剩下用于直接插入排序的节点链表：可根据图12来理解
-        head->next = NULL;       //只含有一个节点的链表的有序链表：可根据图11来理解
-
-        while (first != NULL)        //遍历剩下无序的链表
-        {
-            //注意：这里for语句就是体现直接插入排序思想的地方
-            for (t = first, q = head; ((q != NULL) && (q->num < t->num)); p = q, q = q->next);  //无序节点在有序链表中找插入的位置
-
-            first = first->next; //无序链表中的节点离开，以便它插入到有序链表中
-
-            if (q == head)      //插在第一个节点之前
-            {
-                head = t;
-            }
-            else            //p是q的前驱
-            {
-                p->next = t;
-            }
-            t->next = q;     //完成插入动作
-            //first = first->next;
-        }
-        return head;
-    }
-
-    STU  *SortbyName(STU *head, int n)
-    {
-        STU *endpt;    //控制循环比较
-        STU *p;        //临时指针变量
-        STU *p1, *p2;
-
-        p1 = (STU *)malloc(LEN);
+        p1 = (STUDENT *)malloc(len);
         p1->next = head;        
         head = p1;                
 
@@ -591,45 +588,43 @@ int main()
 
 /*---------------------排序----------------------------*/ 
 
-    void Print(STU *head, int n, int m)
+    void Print(STUDENT *head, int n, int m)
     {
-        STU *p;
-        int i;
+        STUDENT *p;
         p = head;
 
         if (head != NULL)//判断非空与否 
         {
-            printf("\t\t\t******************************************************************************\n");
-            do
-            {
+            printf("******************************************************************************\n");
+       		while (p != NULL);
+			{
 
                 printf("\t\t\t%ld\t%s\t", p->num, p->name);
-                for (i = 0; i<m; i++)
+                for (int i = 0; i<m; i++)
                 {
-                    printf("%.0f\t", p->score[i]);
+                    printf("%.0lf\t", p->score[i]);
                 }
-                printf("%.0f\t%.0f\n", p->sum, p->sum / m);
+                printf("%.0lf\t%.0lf\n", p->sum, p->sum / m);
                 p = p->next;     //移到下一个节点
             }
-            while (p != NULL);
-            printf("\t\t\t******************************************************************************\n");
+            printf("******************************************************************************\n");
         }
     }
 
 
 /*---------------------搜索----------------------------*/ 
-    void  SearchbyNum(STU *head, int n, int m)
+    void  SearchbyNum(STUDENT *head, int n, int m)
     {
         long num;
         int i;
         int flag = 1;
         printf("\t\t\t");
         scanf("%ld", &num);
-        STU *p;
+        STUDENT *p;
         p = head;
         if (head != NULL)
         {
-            do
+            while (p != NULL)
             {
                 if (p->num == num)
                 {
@@ -646,29 +641,27 @@ int main()
                 p = p->next;
 
             }
-            while (p != NULL);
             if (flag)
             {
-                printf("\t\t\t");
                 printf("Not found!\n");
             }
         }
-        printf("\t\t\t******************************************************************************\n");
+        printf("******************************************************************************\n");
 
     }
 
-    void  SearchbyName(STU *head, int n, int m)
+    void  SearchbyName(STUDENT *head, int n, int m)
     {
-        char name[MAX_LEN];
+        char name[10];
         int i;
         int flag = 1;
         printf("\t\t\t");
         scanf("%s", name);
-        STU *p;
+        STUDENT *p;
         p = head;
         if (head != NULL)
         {
-            do
+            while (p != NULL)
             {
                 if (strcmp(name, p->name) == 0)
                 {
@@ -684,7 +677,6 @@ int main()
                 p = p->next;
 
             }
-            while (p != NULL);
             if (flag)
             {
                 printf("\t\t\t");
@@ -696,10 +688,10 @@ int main()
     }
 /*---------------------搜索----------------------------*/ 
 
-    void  StatisticAnalysis(STU *head, int n, int m)
+    void  statistic(STUDENT *head, int n, int m)//统计 
     {
-        int a[6];
-        STU *p;
+        int num[6];
+        STUDENT *p;
         p = head;
         int i, j;
         for (i = 0; i<m; i++)
@@ -707,55 +699,55 @@ int main()
             p = head; // 不要忘了初始化，不然会炸
             for (j = 0; j<6; j++)  // 初始化
             {
-                a[j] = 0;
+                num[j] = 0;
             }
-            do
+            while (p != NULL)
             {
                 if (p->score[i]<60)
                 {
-                    a[0]++;
+                    num[0]++;
                 }
                 else if (p->score[i]<70)
                 {
-                    a[1]++;
+                    num[1]++;
                 }
                 else if (p->score[i]<80)
                 {
-                    a[2]++;
+                    num[2]++;
                 }
                 else if (p->score[i]<90)
                 {
-                    a[3]++;
+                    num[3]++;
                 }
                 else if (p->score[i]<100)
                 {
-                    a[4]++;
+                    num[4]++;
                 }
                 else
                 {
-                    a[5]++;
+                    num[5]++;
                 }
 
                 p = p->next;
 
-            }while (p != NULL);
+            }
         }
             printf("\n\n\n");//百分制 
-            printf("\t\t\t******************************************************************************\n");
+            printf("******************************************************************************\n");
             printf("\t\t\t* For course %d:\n", i + 1);
-            printf("\t\t\t* <60\t%d\t%.2f%%\n", a[0], 100 * a[0] / 6.0);
-            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 60, 69, a[1], 100 * a[1] / 6.0);
-            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 70, 79, a[2], 100 * a[2] / 6.0);
-            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 80, 89, a[3], 100 * a[3] / 6.0);
-            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 90, 99, a[4], 100 * a[4] / 6.0);
-            printf("\t\t\t* %d\t%d\t%.2f%%\n", 100, a[5], 100 * a[5] / 6.0);
-            printf("\t\t\t******************************************************************************\n");
+            printf("\t\t\t* <60\t%d\t%.2f%%\n", num[0], 100 * num[0] / 6.0);
+            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 60, 69, num[1], 100 * num[1] / 6.0);
+            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 70, 79, num[2], 100 * num[2] / 6.0);
+            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 80, 89, num[3], 100 * num[3] / 6.0);
+            printf("\t\t\t* %d-%d\t%d\t%.2f%%\n", 90, 99, num[4], 100 * num[4] / 6.0);
+            printf("\t\t\t* %d\t%d\t%.2f%%\n", 100, num[5], 100 * num[5] / 6.0);
+            printf("******************************************************************************\n");
     	}
 /*---------------------文件----------------------------*/ 
 
-    void  WritetoFile(STU *head, int n, int m)
+    void  WritetoFile(STUDENT *head, int n, int m)
     {
-        STU *p;
+        STUDENT *p;
         p = head;
         FILE *fp;
         int i, j;
@@ -787,9 +779,9 @@ int main()
 
 
 //这里用了直接生成了一个新的链表，确保可以直接读取存好的数据
-    STU *ReadfromFile(STU *head, int *n, int *m)
+    STUDENT *ReadfromFile(STUDENT *head, int *n, int *m)
     {
-        STU *p;
+        STUDENT *p;
         FILE *fp;
         int i, j;
         if ((fp = fopen("student.txt", "r")) == NULL)
