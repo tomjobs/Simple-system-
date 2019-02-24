@@ -1,4 +1,6 @@
-//宏定义区//参考引用https://blog.fuujiro.com/2017/06/01/%E7%AE%80%E6%98%93%E5%9B%BE%E4%B9%A6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/
+//Created by tomjobs1804
+//感谢：https://github.com/tomjobs/LIMS 框架看了网上博客 
+//宏定义区
 #include <stdio.h>//未完成
 #include <string.h>
 #include <math.h>
@@ -54,20 +56,20 @@ int check_repeat_ID(char id_account[20]);/*检查账户重复性函数*/
 void find_account();/*账户找回函数*/
 
 //成绩管理系统层级函数区
-void  Print(STU *head, int n, int m);                  //打印函数
+void  Print(STU *head, int n, int m);                  
 void  AverSumofEveryStudent(STU *head, int n, int m);  //计算每门课程的总分和平均分
 void  AverSumofEveryCourse(STU *head, int n, int m);   //计算每个学生的总分和平均分
 STU  *SortbyScore(STU *head, int n);				   //按每个学生的总分由高到低排出名次表
 STU  *Creat(int n, int m);   //创建链表并录入信息
-STU  *Creat1(int n, int m);
-STU  *SortbyScore1(STU *head, int n);                  //按每个学生的总分由低到高排出名次表
-STU  *SortbyNum(STU *head);                            //按学号由小到大排出成绩表
-STU  *SortbyName(STU *head, int n);                    //按姓名的字典顺序排出成绩表
-void  SearchbyNum(STU *head, int n, int m);            //按学号查询学生排名及其考试成绩
-void  SearchbyName(STU *head, int n, int m);           //按姓名查询学生排名及其考试成绩
+STU  *Creat1(int n, int m);  //创建链表 
+STU  *SortbyScore1(STU *head, int n);                  //学生成绩从低到高排出名次
+STU  *SortbyNum(STU *head);                            //学号从小到大输出成绩
+STU  *SortbyName(STU *head, int n);                    //姓名字典顺序输出成绩
+void  SearchbyNum(STU *head, int n, int m);            //学号查询
+void  SearchbyName(STU *head, int n, int m);           //姓名查询学
 void  StatisticAnalysis(STU *head, int n, int m);      //按类别及比例输出
-void  WritetoFile(STU *head, int n, int m);            //将每个学生的纪录信息写入文件
-STU  *ReadfromFile(STU *head, int *n, int *m);         //从文件中读出每个学生的纪录信息并显示
+void  WritetoFile(STU *head, int n, int m);            //将每个学生信息写入文件
+STU  *ReadfromFile(STU *head, int *n, int *m);         //文件中读取信息 
 
 int main()
 {
@@ -77,42 +79,41 @@ int main()
     char choice1,choice2,choice3;
     STU *head;  //定义头节点
     head = (STU *)malloc(LEN);//头结点赋空间
-    FILE *p1,*p2,*p3;
+    FILE *p1,*p2;
 
     system("title 1804tomjobs");
 
     //创建文件
-    if((p1=fopen("student.txt","r"))==NULL)/*p1学生文件指针*/
+    if((p1=fopen("student.txt","r"))==NULL)/*p1学生信息文件指针*/
     {
         p1=fopen("student.txt","w");
         fclose(p1);
     }
-    if((p2=fopen("infomember.txt","r"))==NULL)/*p2是个人信息文件指针*/
+    if((p2=fopen("infomember.txt","r"))==NULL)/*p2是会员信息文件指针*/
     {
         p2=fopen("infomember.txt","w");
         fclose(p2);
     }
-    if( (p3=fopen("memberbook.txt","r"))==NULL)/*p3是书籍信息文件指针*/
-    {
-        p3=fopen("memberbook.txt","w");
-        fclose(p3);
-    }
-
-    while (flag1)
+    
+	while (flag1)//flag1控制外循环，用于跳出循环，下面的flag不同的值代表跳出不同的循环。 
     {
         system("cls");
         menu1();
-        printf("\n请您选择（1~4）：");
-        //      scanf("%d",&choice1);
+        printf("\n请您选择（1~6）：");
+        //      scanf("%d",&choice1);//用scanf的话就不能起到阻挡非法字符的作用了 
+        
         choice1 = getch();
-        while(choice1!='1'&&choice1!='2'&&choice1!='3'&&choice1!='4')
-            choice1=getch();
+        while(choice1!='1'&&choice1!='2'&&choice1!='3'&&choice1!=4)
+            choice1=getch();//感谢lims:https://github.com/tomjobs/LIMS 的代码，此处的读入保证了限定性，本程序的会员界面也是膜他的程序。 
         printf("%c",choice1);
         fflush(stdin);
+        
+        /*------------------------学生------------------------*/ 
         if(choice1=='1')/*会员登录*/
         {
             int flag=0;
-            char account1[20],account_choice;
+            char account1[20];
+			char account_choice;
             system("cls");
             password_circle();
             fflush(stdin);
@@ -156,6 +157,14 @@ int main()
                         system("cls");  //清屏
                         StatisticAnalysis(head, n, m);
                         break;
+                    case '4':
+                        system("cls");  //清屏
+                        printf("敬请期待\n"); 
+                        break;
+                    case '5':
+                        system("cls");  //清屏
+                        printf("敬请期待\n"); 
+                        break;
                     case '6':
                         system("cls");  //清屏
                         printf("\n\n\n");
@@ -163,14 +172,12 @@ int main()
                         printf("\t\t\tEnd!\n");
                         printf("\t\t\t******************************************************************************\n");
                         flag2 = 0;
+                        break; 
                     default:
                         system("cls");  //清屏
                         printf("\n\n\n");
-                        printf("\t\t\t******************************************************************************\n");
-                        printf("\t\t\tInput error!\n");
-                        printf("\t\t\t******************************************************************************\n");
-
-                    }
+                        printf("\t\t\tError!\n");
+					}
 
             }
             }
@@ -183,28 +190,36 @@ int main()
                 if(account_choice=='Y'||account_choice=='y')
                     find_account();/*账户找回函数*/
             }
-            flag2=1,flag3=1;//这是什么鬼？？
+            flag2=1;
         }
+        
+        
+        /*------------------------学生注册------------------------*/ 
 
         else if(choice1=='2')/*会员注册*/
         {
             system("cls");
             printf("\n\n\n\t\t\t正在进入用户注册界面...");
             clock_delay();
-            member_log_up();
+            member_log_up();//注册界面 
         }
-        else if(choice1=='3')/*管理员登录*/
+        
+        /*------------------------学生------------------------*/ 
+
+        
+       /*------------------------老师------------------------*/ 
+
+		else if(choice1=='3')/*管理员登录*/
         {
             if(compare_password(ADMIN_password))
             {
-                printf("\n\n\t\t\t\t  --输入密码正确!--\n\n\t\t\t\t==正在进入管理员界面==\n");
+                printf("\n\n\t\t\t输入密码正确!\n\n\t\t\t\t进入管理员界面中\n");
                 clock_delay();
-                while(flag2)
-                {
+                
                     system("cls");
                     menu3();
                     printf("\n");
-                    printf("请您选择(1-8):");
+                    printf("请选择(0~D):");
                     choice3=getch();
                     while(choice3!='1'&&choice3!='2'&&choice3!='3'&&choice3!='4'&&choice3!='5'&&choice3!='6'&&choice3!='7'&&choice3!='8')
                         choice3=getch();
@@ -216,11 +231,9 @@ int main()
                     {
                         system("cls");  //清屏
                         printf("\t\t\t******************************************************************************\n");
-                        printf("\t\t\tInput student number(n<30):\n"); //输入学生数
-                        printf("\t\t\t");
+                        printf("\t\t\tInput student number(n<30):\n\t\t\t"); //输入学生数
                         scanf("%d", &n);
-                        printf("\t\t\tInput course number(m<=6):\n");
-                        printf("\t\t\t");
+                        printf("\t\t\tInput course number(m<=6):\n\t\t\t");
                         scanf("%d", &m);
                     }
                     switch (choice3)
@@ -304,18 +317,17 @@ int main()
                         printf("\t\t\tEnd!\n");
                         printf("\t\t\t******************************************************************************\n");
                         flag2 = 0;
+                        break; 
                     default:
                         system("cls");  //清屏
                         printf("\n\n\n");
                         printf("\t\t\t******************************************************************************\n");
                         printf("\t\t\tInput error!\n");
                         printf("\t\t\t******************************************************************************\n");
-
+						break;
                     }
                 }
-
-
-                }
+			
 
 
                 }
@@ -326,13 +338,18 @@ int main()
                 }
                 flag2=1;
     }
-        else if(choice1=='4')/*退出系统*/
-        {
+    
+        /*------------------------老师------------------------*/ 
+
+            else if(choice1=='4')/*退出系统*/
+            {
                 flag1=0;
             }
         }
         return 0;
     }
+    
+
 // 创建菜单
 
 
@@ -342,7 +359,6 @@ int main()
         STU *head;
         STU *p1, *p2;
         int i, j;
-        // system("cls");
         for (i = 1; i < n + 1; i++)
         {
             p1 = (STU *)malloc(LEN);
@@ -374,7 +390,6 @@ int main()
         STU *head;
         STU *p1, *p2;
         int i, j;
-        // system("cls");
         for (i = 1; i < n + 1; i++)
         {
             p1 = (STU *)malloc(LEN);
@@ -444,6 +459,8 @@ int main()
             printf("\t\t\t******************************************************************************\n");
         }
     }
+    
+/*---------------------排序----------------------------*/ 
 
     STU  *SortbyScore(STU *head, int n)
     {
@@ -452,14 +469,14 @@ int main()
         STU *p1, *p2;
 
         p1 = (STU *)malloc(LEN);
-        p1->next = head;        //注意理解：我们增加一个节点，放在第一个节点的前面，主要是为了便于比较。因为第一个节点没有前驱，我们不能交换地址
-        head = p1;                 //让head指向p1节点，排序完成后，我们再把p1节点释放掉
+        p1->next = head;//增加一个前驱结点，此网上代码做法 ，目的是便于比较 
+        head = p1;      //head指向p1
 
         for (endpt = NULL; endpt != head; endpt = p)//
         {
             for (p = p1 = head; p1->next->next != endpt; p1 = p1->next)
             {
-                if (p1->next->sum < p1->next->next->sum)  //如果前面的节点键值比后面节点的键值大，则交换
+                if (p1->next->sum < p1->next->next->sum)
                 {
                     p2 = p1->next->next;
                     p1->next->next = p2->next;
@@ -467,13 +484,13 @@ int main()
                     p1->next = p2;
                     p = p1->next->next;
                 }
-            }
+            }  //交换
         }
 
         p1 = head;              //把p1的信息去掉
         head = head->next;       //让head指向排序后的第一个节点
         free(p1);          //释放p1
-        p1 = NULL;          //p1置为NULL，保证不产生“野指针”，即地址不确定的指针变量
+        p1 = NULL;          //保证不产生野指针
 
         return head;
     }
@@ -548,32 +565,33 @@ int main()
         STU *p1, *p2;
 
         p1 = (STU *)malloc(LEN);
-        p1->next = head;        //注意理解：我们增加一个节点，放在第一个节点的前面，主要是为了便于比较。因为第一个节点没有前驱，我们不能交换地址
-        head = p1;                 //让head指向p1节点，排序完成后，我们再把p1节点释放掉
+        p1->next = head;        
+        head = p1;                
 
         for (endpt = NULL; endpt != head; endpt = p)
         {
             for (p = p1 = head; p1->next->next != endpt; p1 = p1->next)
             {
-                if (strcmp(p1->next->name, p1->next->next->name)>0)  //如果前面的节点键值比后面节点的键值大，则交换
+                if (strcmp(p1->next->name, p1->next->next->name)>0)  
                 {
                     p2 = p1->next->next;
                     p1->next->next = p2->next;
                     p2->next = p1->next;
-                    p1->next = p2;     //结合第4点理解
-                    p = p1->next->next;   //结合第6点理解
+                    p1->next = p2;    
+                    p = p1->next->next;   
                 }
             }
         }
 
-        p1 = head;              //把p1的信息去掉
-        head = head->next;       //让head指向排序后的第一个节点
-        free(p1);          //释放p1
-        p1 = NULL;          //p1置为NULL，保证不产生“野指针”，即地址不确定的指针变量
+        p1 = head;              
+        head = head->next;       
+        free(p1);         
+        p1 = NULL;          
 
         return head;
     }
 
+/*---------------------排序----------------------------*/ 
 
     void Print(STU *head, int n, int m)
     {
@@ -581,7 +599,7 @@ int main()
         int i;
         p = head;
 
-        if (head != NULL)        //只要不是空链表，就输出链表中所有节点
+        if (head != NULL)//判断非空与否 
         {
             printf("\t\t\t******************************************************************************\n");
             do
@@ -600,6 +618,8 @@ int main()
         }
     }
 
+
+/*---------------------搜索----------------------------*/ 
     void  SearchbyNum(STU *head, int n, int m)
     {
         long num;
@@ -676,6 +696,7 @@ int main()
         printf("\t\t\t******************************************************************************\n");
 
     }
+/*---------------------搜索----------------------------*/ 
 
     void  StatisticAnalysis(STU *head, int n, int m)
     {
@@ -721,7 +742,7 @@ int main()
 
             }
             while (p != NULL);
-            printf("\n\n\n");
+            printf("\n\n\n");//百分制 
             printf("\t\t\t******************************************************************************\n");
             printf("\t\t\t* For course %d:\n", i + 1);
             printf("\t\t\t* <60\t%d\t%.2f%%\n", a[0], 100 * a[0] / 6.0);
@@ -734,6 +755,7 @@ int main()
 
         }
     }
+/*---------------------文件----------------------------*/ 
 
     void  WritetoFile(STU *head, int n, int m)
     {
@@ -804,6 +826,9 @@ int main()
 
         return head;
     }
+/*---------------------文件----------------------------*/ 
+
+/*---------------------菜单----------------------------*/ 
 
     void menu1()
     {
@@ -850,28 +875,31 @@ void menu3()
         printf("\t\t\t| | * - * - *          老—师-界-面           * -   * -   * -  *\n");
         printf("                         学生成绩管理系统\n");
         printf("*********************************************************************\n");
-        printf("*         Management for Students' scores                           *\n");
-        printf("*       1.  输入学生信息                                            *\n");
-        printf("*       2.  课程平均分                                              *\n");
-        printf("*       3.  学生平均分                                              *\n");
-        printf("*       4.  成绩降序                                                *\n");
-        printf("*       5.  成绩升序                                                *\n");
-        printf("*       6.  学号排序                                                *\n");
-        printf("*       7.  名字排序                                                *\n");
-        printf("*       8.  学号搜索                                                *\n");
-        printf("*       9.  名字搜索                                                *\n");
+        printf("*       Management for Students' scores                            *\n");
+        printf("*       1. 输入学生信息                                            *\n");
+        printf("*       2. 课程平均分                                              *\n");
+        printf("*       3. 学生平均分                                              *\n");
+        printf("*       4. 成绩降序                                                *\n");
+        printf("*       5. 成绩升序                                                *\n");
+        printf("*       6. 学号排序                                                *\n");
+        printf("*       7. 名字排序                                                *\n");
+        printf("*       8. 学号搜索                                                *\n");
+        printf("*       9. 名字搜索                                                *\n");
         printf("*       A. 成绩统计                                                *\n");
         printf("*       B. 成绩展示                                                *\n");
         printf("*       C. 写入文件                                                *\n");
         printf("*       D. 读取文件                                                *\n");
-        printf("*       0.  退出                                                    *\n");
+        printf("*       0. 退出                                                    *\n");
         printf("*********************************************************************\n");
         printf("\n");
         printf("\n");
         printf("\n");
         printf("\n");
-        printf("*****************Please Input your choice:");
+        printf("*****************输入你的选择********************:");
     }
+/*---------------------菜单----------------------------*/ 
+
+/*---------------------账户----------------------------*/ 
 
     void member_log_up()
     {
@@ -1117,10 +1145,12 @@ void menu3()
         else
         {
             printf("\n\n\n\t\t\t  该ID还未注册,是否需要注册会员(y/n):");
+            
             choice2=getch();
             while(choice2!='Y'&&choice2!='y'&&choice2!='N'&&choice2!='n')
                 choice2=getch();
             printf("%c",choice2);
+            
             printf("\n");
             if(choice2=='Y'||choice2=='y')
             {
@@ -1196,26 +1226,33 @@ void menu3()
         }
     }
 
-    void password_circle()/*画框函数*/
+    void password_circle()
     {
         system("cls");
         printf("\n\n\n\t\t\t***================================*** \n");
         printf("\t\t\t                                   \n");
         printf("\t\t\t   账户 (account):");
     }
-    void clock_delay()/*时间延时函数*/
+    
+    
+    void clock_delay()//延时 
     {
         clock_t tm;
         tm=clock();
         while(clock()<tm+1000);
     }
-    void find_account_circle()/*找回账户弹出框函数*/
+    
+    void find_account_circle()//找回账户 
     {
         printf("\n\n\n\n");
         printf("\t\t\t===============H-E-L-P===================\n");
         printf("\t\t\t|                                       |\n");
+	    printf("\t\t\t|                                       |\n");
         printf("\t\t\t* 您需不需要通过密钥找回账户？(输入y/n) *\n");
         printf("\t\t\t|                                       |\n");
-        printf("\t\t\t=========================================\n");
+        printf("\t\t\t|                                       |\n");
+		printf("\t\t\t=========================================\n");
         printf("\n\t\t\t您的选择是:");
     }
+    
+    /*---------------------账户----------------------------*/ 
